@@ -54,8 +54,8 @@
         <br>
         <br>
         <div class="alert alert-danger" role="alert">
-            Произошла ошибка:<br>
-            <?php echo $data[0]; ?>
+            Ошибка:<br>
+            <b><?php echo $data[0]; ?></b>
         </div>
 
     </div><!-- /.container -->

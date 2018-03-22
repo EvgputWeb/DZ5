@@ -40,8 +40,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/user/auth">Авторизация</a></li>
-            <li class="active"><a href="/user/register">Регистрация</a></li>
+            <li class="active"><a href="/user/auth">Авторизация</a></li>
+            <li><a href="/user/register">Регистрация</a></li>
             <li><a href="list.html">Список пользователей</a></li>
             <li><a href="filelist.html">Список файлов</a></li>
           </ul>
@@ -53,35 +53,12 @@
 
       <div class="form-container">
         <form class="form-horizontal" action="" method="post">
-
-            <div class="form-group">
-                <label for="inputName" class="col-sm-2 control-label">Имя</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputName" placeholder="Имя" name="name">
-                </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">Логин</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputEmail3" placeholder="Логин" name="login">
             </div>
-
-            <div class="form-group">
-                <label for="inputAge" class="col-sm-2 control-label">Возраст</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputAge" placeholder="Имя" name="age">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputDescription" class="col-sm-2 control-label">Описание</label>
-                <div class="col-sm-10">
-                    <textarea class="form-control" id="inputDescription" rows="5" name="description"></textarea>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Логин</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputEmail3" placeholder="Логин" name="login">
-                </div>
-            </div>
+          </div>
           <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
             <div class="col-sm-10">
@@ -89,16 +66,10 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="inputPassword4" class="col-sm-2 control-label">Пароль (Повтор)</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword4" placeholder="Пароль" name="password-again">
-            </div>
-          </div>
-          <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default" name="submit">Зарегистрироваться</button>
+              <button type="submit" class="btn btn-default" name="submit">Войти</button>
               <br><br>
-              Зарегистрированы? <a href="/user/auth">Авторизируйтесь</a>
+              Нет аккаунта? <a href="/user/register">Зарегистрируйтесь</a>
             </div>
           </div>
         </form>
