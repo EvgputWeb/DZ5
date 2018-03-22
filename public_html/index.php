@@ -12,8 +12,8 @@ define('PUBLIC_HTML', ROOT . '/public_html');
 
 // Подключение файлов ядра
 
-require_once(APP . '/core/Router.php');
-require_once(APP . '/core/Db.php');
+require_once APP . '/core/Router.php';
+require_once APP . '/core/Db.php';
 
 // Установка соединения с БД
 

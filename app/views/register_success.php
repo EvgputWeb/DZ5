@@ -36,12 +36,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="/">LoftSchool::DZ5</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html">Авторизация</a></li>
-            <li><a href="reg.html">Регистрация</a></li>
+            <li><a href="/user/auth">Авторизация</a></li>
+            <li class="active"><a href="/user/register">Регистрация</a></li>
             <li><a href="list.html">Список пользователей</a></li>
             <li><a href="filelist.html">Список файлов</a></li>
           </ul>
@@ -51,9 +51,12 @@
 
     <div class="container">
 
-        <p>Поздравляем! Регистрация прошла успешно!</p>
-        <p>Ваш логин: <b><?php echo $data['login']; ?></b>
-        </p>
+        <br>
+        <br>
+        <div class="alert alert-success" role="alert">
+            Поздравляем! Регистрация прошла успешно!<br>
+            Ваш логин: <b><?php echo $data['login']; ?></b>
+        </div>
 
     </div><!-- /.container -->
 

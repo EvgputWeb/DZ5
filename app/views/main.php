@@ -41,7 +41,7 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="/user/auth">Авторизация</a></li>
-            <li class="active"><a href="/user/register">Регистрация</a></li>
+            <li><a href="/user/register">Регистрация</a></li>
             <li><a href="list.html">Список пользователей</a></li>
             <li><a href="filelist.html">Список файлов</a></li>
           </ul>
@@ -51,35 +51,13 @@
 
     <div class="container">
 
-      <div class="form-container">
-        <form class="form-horizontal" action="" method="post">
-          <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Логин</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" placeholder="Логин" name="login">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword3" placeholder="Пароль" name="password">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputPassword4" class="col-sm-2 control-label">Пароль (Повтор)</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword4" placeholder="Пароль" name="password-again">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default" name="submit">Зарегистрироваться</button>
-              <br><br>
-              Зарегистрированы? <a href="/user/auth">Авторизируйтесь</a>
-            </div>
-          </div>
-        </form>
-      </div>
+        <h1>Это главная страница</h1>
+        <?php
+          if (count($data)>0) {
+              echo '<p>Привет, '.$data[0].' !</p>';
+          }
+        ?>
+        <p>Выберите действие в верхнем меню</p>
 
     </div><!-- /.container -->
 

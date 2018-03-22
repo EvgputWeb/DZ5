@@ -24,11 +24,15 @@ class UserController extends Controller
             $password = isset($params['password']) ? $params['password'] : '';
             $passwordAgain = isset($params['password-again']) ? $params['password-again'] : '';
 
+            // Тестируем параметры на корректность
             $testParamsResult = $this->testParams($login, $password, $passwordAgain);
+
             if ($testParamsResult === true) {
-                $userRegisterResult = $this->model->Register($login, $password);
+                // Входные параметры - OK.  Обращаемся к модели пользователя
+                $userRegisterResult = $this->model->Register($login, $password, $userId);
 
                 if ($userRegisterResult === true) {
+                    setcookie('user_id', $userId , time() + 60, '/',  $_SERVER['SERVER_NAME']) ;
                     $this->view->render('register_success', ['login' => $login]);
                 } else {
                     $this->view->render('register_error', [$userRegisterResult]);
