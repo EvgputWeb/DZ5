@@ -27,6 +27,11 @@ class UserController extends Controller
             $userData['password'] = trim($userData['password']);
             $userData['password-again'] = trim($userData['password-again']);
 
+            // Если есть фотка, то добавляем в данные пользователя имя загруженного файла
+            if ((isset($_FILES)) && (isset($_FILES['photo']))) {
+                $userData['photo_filename'] = $_FILES['photo']['tmp_name'];
+            }
+
             // Тестируем параметры на корректность
             $testParamsResult = $this->testRegisterParams($userData['login'], $userData['password'], $userData['password-again']);
 
@@ -70,6 +75,30 @@ class UserController extends Controller
         }
     }
 
+
+    public function actionPhoto(array $params)
+    {
+        if (empty($params['request_from_url'])) {
+            return;
+        }
+        $userInfo = User::getUserInfoByCookie();
+        if (!$userInfo['isLogined']) {
+            // Не авторизованному - не отдаём
+            header('HTTP/1.0 403 Forbidden');
+            echo 'You are not authorised user!';
+            return;
+        }
+        // Нужно отдать картинку
+        $photoFilename = User::$photosFolder . '/photo_'. $params['request_from_url'] . '.jpg';
+        if (!file_exists($photoFilename)) {
+            // отдаём пустую картинку 1x1 пиксель
+            $photoFilename = User::$photosFolder . '/empty.jpg';
+        }
+
+        header("Content-Type: image/jpeg");
+        header("Content-Length: ".filesize($photoFilename));
+        echo file_get_contents($photoFilename);
+    }
 
 
 

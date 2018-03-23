@@ -34,6 +34,9 @@ class Router
                 if (method_exists($controller, $actionName)) {
                     $actionParams = $_POST;
                     unset($_POST);
+                    if (!empty($routes[3])) {
+                        $actionParams['request_from_url'] = $routes[3];
+                    }
                     // Вызываем действие и передаем параметры из _POST
                     $controller->$actionName($actionParams);
                 } else {

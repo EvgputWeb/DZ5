@@ -52,7 +52,8 @@
     <div class="container">
 
       <div class="form-container">
-        <form class="form-horizontal" action="" method="post">
+
+        <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label for="inputName" class="col-sm-2 control-label">Имя</label>
@@ -69,9 +70,17 @@
             </div>
 
             <div class="form-group">
-                <label for="inputDescription" class="col-sm-2 control-label">Описание</label>
+                <label for="inputDescription" class="col-sm-2 control-label">О&nbsp;себе</label>
                 <div class="col-sm-10">
                     <textarea class="form-control" id="inputDescription" rows="5" name="description"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <!-- <input type="hidden" name="MAX_FILE_SIZE" value="1048576" /> -->
+                <label for="inputPhoto" class="col-sm-2 control-label">Фото</label>
+                <div class="col-sm-10">
+                    <input type="file" class="form-control" id="inputPhoto" name="photo" accept="image/*">
                 </div>
             </div>
 
@@ -82,26 +91,31 @@
                   <input type="text" class="form-control" id="inputEmail3" placeholder="Логин" name="login">
                 </div>
             </div>
-          <div class="form-group">
-            <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword3" placeholder="Пароль" name="password">
+
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" id="inputPassword3" placeholder="Пароль" name="password">
+                </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="inputPassword4" class="col-sm-2 control-label">Пароль (Повтор)</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword4" placeholder="Пароль" name="password-again">
+
+            <div class="form-group">
+                <label for="inputPassword4" class="col-sm-2 control-label">Пароль (Повтор)</label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" id="inputPassword4" placeholder="Пароль" name="password-again">
+                </div>
             </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default" name="submit">Зарегистрироваться</button>
-              <br><br>
-              Зарегистрированы? <a href="/user/auth">Авторизируйтесь</a>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default" name="submit">Зарегистрироваться</button>
+                  <br><br>
+                  Зарегистрированы? <a href="/user/auth">Авторизируйтесь</a>
+                </div>
             </div>
-          </div>
+
         </form>
+
       </div>
 
     </div><!-- /.container -->

@@ -22,16 +22,19 @@ $('body').on('click', 'a[href*=deleteuser]', function(e){
                     confirmButtonColor: '#619c34',
                     confirmButtonText: 'OK'
                 }).then((result) => {
-                    // Перезагружаем страницу заново
+                    // Перезагружаем страницу
                     window.location.reload();
                 })
             } else {
-                // Ошибка - выдаём сообщение с номером ошибки
+                // Ошибка - выдаём сообщение
                 swal({
                     type: 'error',
                     title: 'Произошла ошибка',
                     text: data.errorMessage
-                });
+                }).then((result) => {
+                    // Перезагружаем страницу
+                    window.location.reload();
+                })
             }
         })
         .fail(function() {
@@ -40,7 +43,10 @@ $('body').on('click', 'a[href*=deleteuser]', function(e){
                 type: 'error',
                 title: 'Упс...',
                 text: 'Что-то пошло не так'
-            });
+            }).then((result) => {
+                // Перезагружаем страницу
+                window.location.reload();
+            })
         });
 
 });

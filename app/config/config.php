@@ -12,6 +12,7 @@ function getAppConfig()
             'charset' => 'utf8'
         ],
         'cookieCryptPassword' => 'IuJkLr34Dfb0196',
-        'cookieLiveTime' => 120
+        'cookieLiveTime' => 120,
+        'photosFolder' => APP . '/_photos_'
     ];
 }

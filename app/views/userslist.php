@@ -79,7 +79,7 @@
                   <td><?php echo $user['name']; ?></td>
                   <td><?php echo $user['age']; ?></td>
                   <td><?php echo $user['description']; ?></td>
-                  <td><!--<img src="http://lorempixel.com/people/200/200/" alt="">--></td>
+                  <td><img src="/user/photo/<?php echo $user['id']; ?>" alt="<?php echo $user['name']; ?>"></td>
                   <td>
                       <a href="/userslist/deleteuser" id="deletelink_<?php echo $user['id']; ?>" data-id='<?php echo $user['id']; ?>'>Удалить пользователя</a>
                   </td>
@@ -102,6 +102,15 @@
 
     <script src="../../js/sweetalert2.min.js"></script>
     <script src="../../js/my.js"></script>
+
+    <style>
+        .swal2-popup {
+           font-size: 1.3rem !important;
+           width: 50% !important;
+           max-width: 500px !important;
+           min-width: 300px !important;
+        }
+    </style>
 
 
   </body>

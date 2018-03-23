@@ -35,6 +35,10 @@ class User extends Model
             // Всё получилось
             // Возвращаем true и отдаём userId (чтобы установить куку)
             $userId = self::$dbh->lastInsertId();
+            // Если есть фотка, то помещаем её в папку для фоток с именем "photo_".$userId."jpg"
+            if (isset($userData['photo_filename'])) {
+                $this->saveUserPhoto($userId, $userData['photo_filename']);
+            }
             return true;
         } catch (PDOException $e) {
             return 'Ошибка при добавлении пользователя в БД';
@@ -125,5 +129,49 @@ class User extends Model
         }
 
         return array_merge($userInfo, $usrInf);
+    }
+
+
+    private function saveUserPhoto($userId, $tmpFilename)
+    {
+        $imgTypes = [IMAGETYPE_JPEG, IMAGETYPE_PNG];
+        $imgType = exif_imagetype($tmpFilename);
+        if (!in_array($imgType, $imgTypes)) {
+            // недопустимый тип файла
+            return;
+        }
+        switch ($imgType) {
+            case IMAGETYPE_JPEG:
+                $img = imagecreatefromjpeg($tmpFilename);
+                break;
+            case IMAGETYPE_PNG:
+                $img = imagecreatefrompng($tmpFilename);
+                break;
+        }
+        if ($img === false) {
+            return;
+        }
+        // обрезаем картинку - делаем квадрат
+        $size = min(imagesx($img), imagesy($img));
+        $img2 = imagecrop($img, ['x' => 0, 'y' => 0, 'width' => $size, 'height' => $size]);
+        if ($img2 === false) {
+            imagedestroy($img);
+            return;
+        }
+        imagedestroy($img);
+        // масштабируем до размера 100x100
+        $imageScaled = imagescale($img2, 100);
+        if ($imageScaled === false) {
+            imagedestroy($img2);
+            return;
+        }
+
+        // Сохраняем в папку с фотками пользователей
+        $photoFilename = User::$photosFolder . '/photo_'. intval($userId) . '.jpg';
+        imagejpeg($imageScaled, $photoFilename,90);
+        imagedestroy($imageScaled);
+
+        // Удаляем временный файл
+        unlink($tmpFilename);
     }
 }

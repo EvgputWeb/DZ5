@@ -30,6 +30,11 @@ class Userslist extends Model
             if ($res === false) {
                 return 'Ошибка при удалении';
             } else {
+                // Удаляем фотку, если она есть
+                $photoFilename = User::$photosFolder . '/photo_'. intval($userId) . '.jpg';
+                if (file_exists($photoFilename)) {
+                    unlink($photoFilename);
+                }
                 return true;
             }
         } catch (PDOException $e) {
