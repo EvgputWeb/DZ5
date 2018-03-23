@@ -6,7 +6,6 @@ require_once 'User.php';
 
 class Userslist extends Model
 {
-
     public function getUsersList(&$usersList)
     {
         try {
@@ -41,7 +40,4 @@ class Userslist extends Model
             return 'Ошибка при запросе к БД';
         }
     }
-
-
-
 }
