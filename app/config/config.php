@@ -1,7 +1,7 @@
 <?php
 
 
-function getAppGonfig()
+function getAppConfig()
 {
     return [
         'db' => [

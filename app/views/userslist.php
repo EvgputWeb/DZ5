@@ -39,41 +39,55 @@
           <a class="navbar-brand" href="/">LoftSchool::DZ5</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="/user/auth">Авторизация</a></li>
-            <li><a href="/user/register">Регистрация</a></li>
-            <li><a href="/userslist">Список пользователей</a></li>
-            <li><a href="/fileslist">Список файлов</a></li>
-          </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/user/auth">Авторизация</a></li>
+                <li><a href="/user/register">Регистрация</a></li>
+                <li class="active"><a href="/userslist">Список пользователей</a></li>
+                <li><a href="/fileslist">Список файлов</a></li>
+            </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
 
-      <div class="form-container">
-        <form class="form-horizontal" action="" method="post">
-          <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Логин</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" placeholder="Логин" name="login">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword3" placeholder="Пароль" name="password">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default" name="submit">Войти</button>
-              <br><br>
-              Нет аккаунта? <a href="/user/register">Зарегистрируйтесь</a>
-            </div>
-          </div>
-        </form>
+      <br>
+      <div class="alert alert-success" role="alert">
+          <?php echo 'Вы авторизованы как&nbsp; <b>'.$data['name'].'</b>&nbsp; (логин: <b>'.$data['login'].'</b>)'; ?>
       </div>
+
+      <?php if (isset($data['errorMessage'])) : ?>
+          <br>
+          <div class="alert alert-danger" role="alert">
+             <?php echo $data['errorMessage']; ?>
+          </div>
+      <?php else : ?>
+
+          <h2>Список пользователей</h2>
+          <table class="table table-bordered">
+              <tr>
+                  <th>Логин</th>
+                  <th>Имя</th>
+                  <th>Возраст</th>
+                  <th>Описание</th>
+                  <th>Фотография</th>
+                  <th>Действия</th>
+              </tr>
+              <?php foreach ($data['list'] as $user) : ?>
+              <tr>
+                  <td><?php echo $user['login']; ?></td>
+                  <td><?php echo $user['name']; ?></td>
+                  <td><?php echo $user['age']; ?></td>
+                  <td><?php echo $user['description']; ?></td>
+                  <td><!--<img src="http://lorempixel.com/people/200/200/" alt="">--></td>
+                  <td>
+                      <a href="/userslist/deleteuser" id="deletelink_<?php echo $user['id']; ?>">Удалить пользователя</a>
+                  </td>
+              </tr>
+              <?php endforeach; ?>
+          </table>
+
+      <?php endif ?>
 
     </div><!-- /.container -->
 
@@ -84,6 +98,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="../../js/main.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
+
+    <script src="../../js/my.js"></script>
 
   </body>
 </html>

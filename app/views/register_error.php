@@ -42,8 +42,8 @@
           <ul class="nav navbar-nav">
             <li><a href="/user/auth">Авторизация</a></li>
             <li class="active"><a href="/user/register">Регистрация</a></li>
-            <li><a href="list.html">Список пользователей</a></li>
-            <li><a href="filelist.html">Список файлов</a></li>
+            <li><a href="/userslist">Список пользователей</a></li>
+            <li><a href="/fileslist">Список файлов</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

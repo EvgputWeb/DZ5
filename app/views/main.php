@@ -42,8 +42,8 @@
           <ul class="nav navbar-nav">
             <li><a href="/user/auth">Авторизация</a></li>
             <li><a href="/user/register">Регистрация</a></li>
-            <li><a href="list.html">Список пользователей</a></li>
-            <li><a href="filelist.html">Список файлов</a></li>
+            <li><a href="/userslist">Список пользователей</a></li>
+            <li><a href="/fileslist">Список файлов</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -54,7 +54,7 @@
         <h1>Это главная страница</h1>
         <?php
           if (count($data)>0) {
-              echo '<p>Вы авторизованы как&nbsp; <b>'.$data[0].'</b></p>';
+              echo '<p>Вы авторизованы как&nbsp; <b>'.$data['name'].'</b>&nbsp; (логин: <b>'.$data['login'].'</b>)</p>';
           }
         ?>
         <p>Выберите действие в верхнем меню</p>

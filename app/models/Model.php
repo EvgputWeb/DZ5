@@ -10,7 +10,7 @@ class Model
 
     public static function config()
     {
-        $cfg = getAppGonfig();
+        $cfg = getAppConfig();
         self::$cookieCryptPassword = $cfg['cookieCryptPassword'];
         self::$cookieLiveTime = $cfg['cookieLiveTime'];
     }

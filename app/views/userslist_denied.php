@@ -39,41 +39,23 @@
           <a class="navbar-brand" href="/">LoftSchool::DZ5</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="/user/auth">Авторизация</a></li>
-            <li><a href="/user/register">Регистрация</a></li>
-            <li><a href="/userslist">Список пользователей</a></li>
-            <li><a href="/fileslist">Список файлов</a></li>
-          </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/user/auth">Авторизация</a></li>
+                <li><a href="/user/register">Регистрация</a></li>
+                <li class="active"><a href="/userslist">Список пользователей</a></li>
+                <li><a href="/fileslist">Список файлов</a></li>
+            </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
 
-      <div class="form-container">
-        <form class="form-horizontal" action="" method="post">
-          <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Логин</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" placeholder="Логин" name="login">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword3" placeholder="Пароль" name="password">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default" name="submit">Войти</button>
-              <br><br>
-              Нет аккаунта? <a href="/user/register">Зарегистрируйтесь</a>
-            </div>
-          </div>
-        </form>
-      </div>
+        <br>
+        <br>
+        <div class="alert alert-danger" role="alert">
+            Отказано в доступе: необходимо авторизоваться
+        </div>
 
     </div><!-- /.container -->
 

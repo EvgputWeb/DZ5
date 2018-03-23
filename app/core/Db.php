@@ -6,7 +6,7 @@ class Db
 {
     public static function connection()
     {
-        $params = getAppGonfig();
+        $params = getAppConfig();
         $db = $params['db'];
         try {
             // data source name
