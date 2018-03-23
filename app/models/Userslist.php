@@ -1,6 +1,8 @@
 <?php
 
 require_once 'Model.php';
+require_once 'User.php';
+
 
 class Userslist extends Model
 {
@@ -19,6 +21,22 @@ class Userslist extends Model
             return 'Ошибка при запросе к БД';
         }
     }
+
+
+    public function deleteUser($userId)
+    {
+        try {
+            $res = self::$dbh->exec('DELETE FROM users WHERE id = '. intval($userId));
+            if ($res === false) {
+                return 'Ошибка при удалении';
+            } else {
+                return true;
+            }
+        } catch (PDOException $e) {
+            return 'Ошибка при запросе к БД';
+        }
+    }
+
 
 
 }

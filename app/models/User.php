@@ -117,6 +117,13 @@ class User extends Model
 
         $usrInf = self::getUserInfoById($userInfo['id']);
 
+        if (empty($usrInf)) {
+            // Упс... А пользователя такого нету...
+            $userInfo = [];
+            $userInfo['isLogined'] = false;
+            return $userInfo;
+        }
+
         return array_merge($userInfo, $usrInf);
     }
 }

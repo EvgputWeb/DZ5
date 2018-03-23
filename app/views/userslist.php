@@ -81,7 +81,7 @@
                   <td><?php echo $user['description']; ?></td>
                   <td><!--<img src="http://lorempixel.com/people/200/200/" alt="">--></td>
                   <td>
-                      <a href="/userslist/deleteuser" id="deletelink_<?php echo $user['id']; ?>">Удалить пользователя</a>
+                      <a href="/userslist/deleteuser" id="deletelink_<?php echo $user['id']; ?>" data-id='<?php echo $user['id']; ?>'>Удалить пользователя</a>
                   </td>
               </tr>
               <?php endforeach; ?>
@@ -95,11 +95,14 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="../../js/main.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
 
+    <script src="../../js/sweetalert2.min.js"></script>
     <script src="../../js/my.js"></script>
+
 
   </body>
 </html>
