@@ -107,11 +107,11 @@ class UserController extends Controller
         if (!is_string($login) || !is_string($password) || !is_string($passwordAgain)) {
             return 'Параметры должны быть строковыми';
         }
-        if (strlen($login) < 6) {
-            return 'Логин должен содержать хотя бы 6 символов';
+        if (strlen($login) < 4) {
+            return 'Логин должен содержать хотя бы 4 символа';
         }
-        if (strlen($password) < 6) {
-            return 'Пароль должен содержать не менее 6 символов';
+        if (strlen($password) < 5) {
+            return 'Пароль должен содержать не менее 5 символов';
         }
         if ($password != $passwordAgain) {
             return 'Пароли не совпадают';

@@ -31,21 +31,16 @@ class Fileslist extends Model
 
     public function deletePhoto($userId)
     {
-        /*
-        try {
-            $res = self::$dbh->exec('DELETE FROM users WHERE id = ' . intval($userId));
-            if ($res === false) {
-                return 'Ошибка при удалении';
-            } else {
-                // Удаляем фотку, если она есть
-                $photoFilename = User::$photosFolder . '/photo_' . intval($userId) . '.jpg';
-                if (file_exists($photoFilename)) {
-                    unlink($photoFilename);
-                }
+        // Удаляем фотку, если она есть
+        $photoFilename = User::$photosFolder . '/photo_' . intval($userId) . '.jpg';
+        if (file_exists($photoFilename)) {
+            if (unlink($photoFilename)) {
                 return true;
+            } else {
+                return 'Ошибка при удалении файла';
             }
-        } catch (PDOException $e) {
-            return 'Ошибка при запросе к БД';
-        } */
+        } else {
+            return 'Файл не найден';
+        }
     }
 }

@@ -101,7 +101,7 @@
     <script src="../../js/bootstrap.min.js"></script>
 
     <script src="../../js/sweetalert2.min.js"></script>
-    <script src="../../js/my.js"></script>
+    <script src="../../js/userslist.js"></script>
 
     <style>
         .swal2-popup {

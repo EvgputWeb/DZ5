@@ -76,7 +76,7 @@
                       <td><?php echo $filename; ?></td>
                       <td><img src="/user/photo/<?php echo $id; ?>" alt=""></td>
                       <td>
-                          <a href="/fileslist/deletefile" id="deletefilelink_<?php echo $id; ?>" data-id='<?php echo $id; ?>'>
+                          <a href="/fileslist/deletephoto" id="deletephotolink_<?php echo $id; ?>" data-id='<?php echo $id; ?>'>
                               Удалить аватарку пользователя
                           </a>
                       </td>
@@ -99,7 +99,7 @@
     <script src="../../js/bootstrap.min.js"></script>
 
     <script src="../../js/sweetalert2.min.js"></script>
-    <script src="../../js/my.js"></script>
+    <script src="../../js/fileslist.js"></script>
 
     <style>
         .swal2-popup {
