@@ -1,27 +1,27 @@
 <?php
 
-require_once 'Model.php';
+require_once 'BaseModel.php';
 require_once 'User.php';
 
 
-class Fileslist extends Model
+class Fileslist extends BaseModel
 {
-    public function getFilesList(&$filesList)
+    public function getFilesList()
     {
         try {
-            $sth = self::$dbh->query('SELECT users.id FROM users ORDER BY id');
+            $sth = Db::getConnection()->query('SELECT users.id FROM users ORDER BY id');
             $idsList = $sth->fetchAll(PDO::FETCH_COLUMN);
             if ($idsList === false) {
                 return 'Ошибка при выполнении запроса к БД';
             } else {
                 $filesList = [];
                 for ($i = 0; $i < count($idsList); $i++) {
-                    $photoFilename = User::$photosFolder . '/photo_' . intval($idsList[$i]) . '.jpg';
+                    $photoFilename = Config::getPhotosFolder() . '/photo_' . intval($idsList[$i]) . '.jpg';
                     if (file_exists($photoFilename)) {
                         $filesList[$idsList[$i]] = 'photo_' . intval($idsList[$i]) . '.jpg';
                     }
                 }
-                return true;
+                return $filesList;
             }
         } catch (PDOException $e) {
             return 'Ошибка при запросе к БД';
@@ -32,7 +32,7 @@ class Fileslist extends Model
     public function deletePhoto($userId)
     {
         // Удаляем фотку, если она есть
-        $photoFilename = User::$photosFolder . '/photo_' . intval($userId) . '.jpg';
+        $photoFilename = Config::getPhotosFolder() . '/photo_' . intval($userId) . '.jpg';
         if (file_exists($photoFilename)) {
             if (unlink($photoFilename)) {
                 return true;

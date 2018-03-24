@@ -1,20 +1,20 @@
 <?php
 
-require_once 'Model.php';
+require_once 'BaseModel.php';
 require_once 'User.php';
 
 
-class Userslist extends Model
+class Userslist extends BaseModel
 {
-    public function getUsersList(&$usersList)
+    public function getUsersList()
     {
         try {
-            $sth = self::$dbh->query('SELECT * FROM users ORDER BY id');
+            $sth = Db::getConnection()->query('SELECT * FROM users ORDER BY id');
             $usersList = $sth->fetchAll(PDO::FETCH_ASSOC);
             if ($usersList === false) {
                 return 'Ошибка при выполнении запроса к БД';
             } else {
-                return true;
+                return $usersList;
             }
         } catch (PDOException $e) {
             return 'Ошибка при запросе к БД';
@@ -25,7 +25,7 @@ class Userslist extends Model
     public function deleteUser($userId)
     {
         try {
-            $res = self::$dbh->exec('DELETE FROM users WHERE id = '. intval($userId));
+            $res = Db::getConnection()->exec('DELETE FROM users WHERE id = '. intval($userId));
             if ($res === false) {
                 return 'Ошибка при удалении';
             } else {

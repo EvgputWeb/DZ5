@@ -20,14 +20,15 @@ class UserslistController extends Controller
         if ($userInfo['isLogined']) {
             // Это авторизованный пользователь
             // Берём у модели список пользователей
-            $getUsersListResult = $this->model->getUsersList($usersList);
+            $usersList = $this->model->getUsersList();
 
-            if ($getUsersListResult === true) {
+            if (is_array($usersList)) {
                 $this->view->render('userslist',
                     ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'list' => $usersList]);
             } else {
+                $errorMessage = (string)$usersList;
                 $this->view->render('userslist',
-                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'errorMessage' => $getUsersListResult]);
+                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'errorMessage' => $errorMessage]);
             }
         } else {
             // Пользователь не авторизован - доступ в раздел запрещён

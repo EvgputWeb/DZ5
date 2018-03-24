@@ -1,8 +1,8 @@
 <?php
 
-require_once 'Model.php';
+require_once 'BaseModel.php';
 
-class User extends Model
+class User extends BaseModel
 {
     public static $userDataFields = ['name', 'age', 'description', 'login', 'password', 'password-again'];
 
@@ -11,7 +11,7 @@ class User extends Model
     {
         // Проверка: вдруг такой пользователь уже есть
         try {
-            $sth = self::$dbh->prepare('SELECT count(*) as count FROM users WHERE lcase(login) = lcase(:flogin)');
+            $sth = Db::getConnection()->prepare('SELECT count(*) as count FROM users WHERE lcase(login) = lcase(:flogin)');
             $sth->execute(['flogin' => $userData['login']]);
             $count = $sth->fetchColumn();
             if ($count > 0) {
@@ -24,7 +24,7 @@ class User extends Model
         try {
             $sql = 'INSERT INTO users(name, age, description, login, password_hash) ' .
                 'VALUES (:fname, :fage, :fdescription, :flogin, :fpassword_hash)';
-            $sth = self::$dbh->prepare($sql);
+            $sth = Db::getConnection()->prepare($sql);
             $sth->execute([
                 'fname' => $userData['name'],
                 'fage' => intval($userData['age']),
@@ -34,7 +34,7 @@ class User extends Model
             ]);
             // Всё получилось
             // Возвращаем true и отдаём userId (чтобы установить куку)
-            $userId = self::$dbh->lastInsertId();
+            $userId = Db::getConnection()->lastInsertId();
             // Если есть фотка, то помещаем её в папку для фоток с именем "photo_".$userId."jpg"
             if (isset($userData['photo_filename'])) {
                 $this->saveUserPhoto($userId, $userData['photo_filename']);
@@ -50,7 +50,7 @@ class User extends Model
     {
         try {
             $sql = 'SELECT users.id,users.password_hash FROM users WHERE (lcase(login) = lcase(:flogin))';
-            $sth = self::$dbh->prepare($sql);
+            $sth = Db::getConnection()->prepare($sql);
             $sth->execute(['flogin' => $userData['login']]);
             $row = $sth->fetch();
             if ($row === false) {
@@ -75,19 +75,19 @@ class User extends Model
 
     public static function encryptUserId($id)
     {
-        return openssl_encrypt($id, 'AES-128-ECB', self::$cookieCryptPassword);
+        return openssl_encrypt($id, 'AES-128-ECB', Config::getCookieCryptPassword());
     }
 
     public static function decryptUserId($cryptedId)
     {
-        return openssl_decrypt($cryptedId, 'AES-128-ECB', self::$cookieCryptPassword);
+        return openssl_decrypt($cryptedId, 'AES-128-ECB', Config::getCookieCryptPassword());
     }
 
 
     public static function getUserInfoById($id)
     {
         try {
-            $sth = self::$dbh->prepare('SELECT users.name,users.login FROM users WHERE id = :fid');
+            $sth = Db::getConnection()->prepare('SELECT users.name,users.login FROM users WHERE id = :fid');
             $sth->execute(['fid' => $id]);
             $row = $sth->fetch();
             if ($row === false) {
@@ -167,7 +167,7 @@ class User extends Model
         }
 
         // Сохраняем в папку с фотками пользователей
-        $photoFilename = User::$photosFolder . '/photo_'. intval($userId) . '.jpg';
+        $photoFilename = Config::getPhotosFolder() . '/photo_'. intval($userId) . '.jpg';
         imagejpeg($imageScaled, $photoFilename,90);
         imagedestroy($imageScaled);
 

@@ -19,14 +19,15 @@ class FileslistController extends Controller
         if ($userInfo['isLogined']) {
             // Это авторизованный пользователь
             // Берём у модели список файлов
-            $getFilesListResult = $this->model->getFilesList($filesList);
+            $filesList = $this->model->getFilesList();
 
-            if ($getFilesListResult === true) {
+            if (is_array($filesList)) {
                 $this->view->render('fileslist',
                     ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'list' => $filesList]);
             } else {
+                $errorMessage = (string)$filesList;
                 $this->view->render('fileslist',
-                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'errorMessage' => $getFilesListResult]);
+                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'errorMessage' => $errorMessage]);
             }
         } else {
             // Пользователь не авторизован - доступ в раздел запрещён

@@ -4,7 +4,14 @@ require_once(APP . '/config/config.php');
 
 class Db
 {
-    public static function connection()
+    private static $dbh = null;  // коннект с базой
+
+    public static function getConnection()
+    {
+        return self::$dbh;
+    }
+
+    public static function setConnection()
     {
         $params = getAppConfig();
         $db = $params['db'];
@@ -17,11 +24,11 @@ class Db
                 PDO::ATTR_EMULATE_PREPARES => false
             ];
             // Подключаемся к базе
-            $dbh = new PDO($dsn, $db['user'], $db['password'], $opt);
-            // Всё нормально - отдаём $dbh
-            return $dbh;
+            self::$dbh = new PDO($dsn, $db['user'], $db['password'], $opt);
+            return true;
         } catch (PDOException $e) {
-            return null;
+            self::$dbh = null;
+            return false;
         }
     }
 }

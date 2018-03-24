@@ -40,7 +40,7 @@ class UserController extends Controller
                 $userRegisterResult = $this->model->Register($userData, $userId);
 
                 if ($userRegisterResult === true) {
-                    setcookie('user_id', User::encryptUserId($userId), time() + User::$cookieLiveTime, '/', $_SERVER['SERVER_NAME']);
+                    setcookie('user_id', User::encryptUserId($userId), time() + Config::getCookieLiveTime(), '/', $_SERVER['SERVER_NAME']);
                     $this->view->render('register_success', ['login' => $userData['login']]);
                 } else {
                     $this->view->render('register_error', [$userRegisterResult]);
@@ -66,7 +66,7 @@ class UserController extends Controller
             $userAuthResult = $this->model->Auth($userData, $userId);
 
             if ($userAuthResult === true) {
-                setcookie('user_id', User::encryptUserId($userId), time() + User::$cookieLiveTime, '/', $_SERVER['SERVER_NAME']);
+                setcookie('user_id', User::encryptUserId($userId), time() + Config::getCookieLiveTime(), '/', $_SERVER['SERVER_NAME']);
                 $userInfo = User::getUserInfoById($userId);
                 $this->view->render('auth_success', ['name' => $userInfo['name']]);
             } else {
@@ -89,10 +89,10 @@ class UserController extends Controller
             return;
         }
         // Нужно отдать картинку
-        $photoFilename = User::$photosFolder . '/photo_'. $params['request_from_url'] . '.jpg';
+        $photoFilename = Config::getPhotosFolder() . '/photo_'. $params['request_from_url'] . '.jpg';
         if (!file_exists($photoFilename)) {
             // отдаём пустую картинку 1x1 пиксель
-            $photoFilename = User::$photosFolder . '/empty.jpg';
+            $photoFilename = Config::getPhotosFolder() . '/empty.jpg';
         }
 
         header("Content-Type: image/jpeg");
