@@ -134,6 +134,9 @@ class User extends BaseModel
 
     private function saveUserPhoto($userId, $tmpFilename)
     {
+        if (empty($tmpFilename)) {
+            return;
+        }
         $imgTypes = [IMAGETYPE_JPEG, IMAGETYPE_PNG];
         $imgType = exif_imagetype($tmpFilename);
         if (!in_array($imgType, $imgTypes)) {
@@ -167,8 +170,8 @@ class User extends BaseModel
         }
 
         // Сохраняем в папку с фотками пользователей
-        $photoFilename = Config::getPhotosFolder() . '/photo_'. intval($userId) . '.jpg';
-        imagejpeg($imageScaled, $photoFilename,90);
+        $photoFilename = Config::getPhotosFolder() . '/photo_' . intval($userId) . '.jpg';
+        imagejpeg($imageScaled, $photoFilename, 90);
         imagedestroy($imageScaled);
 
         // Удаляем временный файл

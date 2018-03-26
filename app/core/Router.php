@@ -1,8 +1,8 @@
 <?php
 
-class Router
+abstract class Router
 {
-    public function run()
+    public static function run()
     {
         $routes = explode('/', $_SERVER['REQUEST_URI']);
 
@@ -32,10 +32,15 @@ class Router
             if (class_exists($controllerName)) {
                 $controller = new $controllerName();
                 if (method_exists($controller, $actionName)) {
-                    $actionParams = $_POST;
+                    $params = $_POST;
                     unset($_POST);
                     if (!empty($routes[3])) {
-                        $actionParams['request_from_url'] = $routes[3];
+                        $params['request_from_url'] = $routes[3];
+                    }
+                    // Обезопасиваем входные параметры
+                    $actionParams = [];
+                    foreach ($params as $key => $value) {
+                        $actionParams[$key] = htmlspecialchars($value, ENT_QUOTES);
                     }
                     // Вызываем действие и передаем параметры из _POST
                     $controller->$actionName($actionParams);

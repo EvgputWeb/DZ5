@@ -2,7 +2,7 @@
 
 require_once(APP . '/config/config.php');
 
-class Db
+abstract class Db
 {
     private static $dbh = null;  // коннект с базой
 

@@ -13,6 +13,7 @@ class UserslistController extends Controller
         $this->model = new Userslist();
     }
 
+
     public function actionIndex()
     {
         $userInfo = User::getUserInfoByCookie();
@@ -23,12 +24,16 @@ class UserslistController extends Controller
             $usersList = $this->model->getUsersList();
 
             if (is_array($usersList)) {
-                $this->view->render('userslist',
-                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'list' => $usersList]);
+                $this->view->render(
+                    'userslist',
+                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'list' => $usersList]
+                );
             } else {
                 $errorMessage = (string)$usersList;
-                $this->view->render('userslist',
-                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'errorMessage' => $errorMessage]);
+                $this->view->render(
+                    'userslist',
+                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'errorMessage' => $errorMessage]
+                );
             }
         } else {
             // Пользователь не авторизован - доступ в раздел запрещён
@@ -36,6 +41,7 @@ class UserslistController extends Controller
         }
     }
 
+    
     public function actionDeleteUser(array $params)
     {
         if (!isset($params['id'])) {
@@ -72,6 +78,4 @@ class UserslistController extends Controller
             echo json_encode(['result' => 'fail', 'errorMessage' => 'Вы не авторизованы. Нет прав на удаление'], JSON_UNESCAPED_UNICODE);
         }
     }
-
-
 }

@@ -30,7 +30,7 @@ class Userslist extends BaseModel
                 return 'Ошибка при удалении';
             } else {
                 // Удаляем фотку, если она есть
-                $photoFilename = User::$photosFolder . '/photo_'. intval($userId) . '.jpg';
+                $photoFilename = Config::getphotosFolder() . '/photo_'. intval($userId) . '.jpg';
                 if (file_exists($photoFilename)) {
                     unlink($photoFilename);
                 }

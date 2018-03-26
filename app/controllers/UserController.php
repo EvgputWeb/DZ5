@@ -12,6 +12,7 @@ class UserController extends Controller
         $this->model = new User();
     }
 
+
     public function actionRegister(array $params)
     {
         if (count($params) == 0) {
@@ -89,17 +90,16 @@ class UserController extends Controller
             return;
         }
         // Нужно отдать картинку
-        $photoFilename = Config::getPhotosFolder() . '/photo_'. $params['request_from_url'] . '.jpg';
+        $photoFilename = Config::getPhotosFolder() . '/photo_' . $params['request_from_url'] . '.jpg';
         if (!file_exists($photoFilename)) {
             // отдаём пустую картинку 1x1 пиксель
             $photoFilename = Config::getPhotosFolder() . '/empty.jpg';
         }
 
         header("Content-Type: image/jpeg");
-        header("Content-Length: ".filesize($photoFilename));
+        header("Content-Length: " . filesize($photoFilename));
         echo file_get_contents($photoFilename);
     }
-
 
 
     private function testRegisterParams($login, $password, $passwordAgain)
@@ -107,11 +107,16 @@ class UserController extends Controller
         if (!is_string($login) || !is_string($password) || !is_string($passwordAgain)) {
             return 'Параметры должны быть строковыми';
         }
-        if (strlen($login) < 4) {
-            return 'Логин должен содержать хотя бы 4 символа';
+        if ((strlen($login) < Config::getMinLoginLength()) || (strlen($login) > Config::getMaxLoginLength())) {
+            return 'Логин должен содержать от ' . Config::getMinLoginLength() .
+                ' до ' . Config::getMaxLoginLength() . ' символов';
         }
-        if (strlen($password) < 5) {
-            return 'Пароль должен содержать не менее 5 символов';
+        if ((strlen($password) < Config::getMinPasswordLength()) || (strlen($password) > Config::getMaxPasswordLength())) {
+            return 'Пароль должен содержать от ' . Config::getMinPasswordLength() .
+                ' до ' . Config::getMaxPasswordLength() . ' символов';
+        }
+        if (!preg_match('/^[a-z0-9_-]{1,}$/', $login)) {
+            return 'Логин должен состоять из строчных латинских букв, цифр, символов подчеркивания и дефиса';
         }
         if ($password != $passwordAgain) {
             return 'Пароли не совпадают';

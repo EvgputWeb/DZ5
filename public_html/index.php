@@ -13,7 +13,6 @@ define('PUBLIC_HTML', ROOT . '/public_html');
 require_once APP . '/core/Config.php';
 require_once APP . '/core/Db.php';
 require_once APP . '/core/Router.php';
-require_once APP . '/models/BaseModel.php';
 
 
 // Загружаем конфигурацию
@@ -26,7 +25,5 @@ if (Db::setConnection() == false) {
     die;
 }
 
-
-// Вызор Router
-$router = new Router();
-$router->run();
+// Запускаем Router
+Router::run();
