@@ -3,6 +3,8 @@
 require_once 'Controller.php';
 require_once APP . '/models/User.php';
 
+use ReCaptcha\ReCaptcha;
+
 
 class UserController extends Controller
 {
@@ -20,6 +22,16 @@ class UserController extends Controller
             $this->view->render('register', []);
         } else {
             // Есть данные пользователя, пришедшие из браузера (через POST)
+            // Проверяем сначала прохождение капчи
+            if (key_exists('g-recaptcha-response', $params)) {
+                $remoteIp = $_SERVER['REMOTE_ADDR'];
+                $recaptcha = new ReCaptcha('6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe');
+                $resp = $recaptcha->verify($params['g-recaptcha-response'], $remoteIp);
+                if (!$resp->isSuccess()) {
+                    $this->view->render('register_error', ['Не пройдена анти-бот проверка']);
+                }
+            }
+            // Капча пройдена - работаем дальше
             $userData = [];
             foreach (User::$userDataFields as $field) {
                 $userData[$field] = isset($params[$field]) ? $params[$field] : '';

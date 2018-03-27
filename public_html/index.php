@@ -13,6 +13,7 @@ define('PUBLIC_HTML', ROOT . '/public_html');
 require_once APP . '/core/Config.php';
 require_once APP . '/core/Db.php';
 require_once APP . '/core/Router.php';
+require_once ROOT . '/vendor/autoload.php';
 
 
 // Загружаем конфигурацию

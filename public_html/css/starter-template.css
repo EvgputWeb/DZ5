@@ -7,7 +7,7 @@ body {
 }
 
 .form-container{
-  margin-top: 10%;
+  margin-top: 5%;
   width: 100%;
   text-align: center;
   display: flex;
@@ -15,4 +15,9 @@ body {
 }
 .form-horizontal {
   width: 35%;
+  min-width: 400px;
+}
+
+.g-recaptcha {
+  display: inline-block;
 }

@@ -33,7 +33,6 @@ abstract class Router
                 $controller = new $controllerName();
                 if (method_exists($controller, $actionName)) {
                     $params = $_POST;
-                    unset($_POST);
                     if (!empty($routes[3])) {
                         $params['request_from_url'] = $routes[3];
                     }
