@@ -84,11 +84,17 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="inputEmail" class="col-sm-2 control-label"><nobr>E-mail</nobr></label>
+                <div class="col-sm-10">
+                  <input type="email" class="form-control" id="inputEmail3" placeholder="E-mail" name="email" required>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label">Логин</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputEmail3" placeholder="Логин" name="login">
+                  <input type="text" class="form-control" id="inputEmail3" placeholder="Логин" name="login" required>
                 </div>
             </div>
 
@@ -109,7 +115,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Проверка</label>
                 <div class="col-sm-10">
-                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                    <div class="g-recaptcha" data-sitekey="<?php echo $data[0]; ?>"></div>
                 </div>
             </div>
 

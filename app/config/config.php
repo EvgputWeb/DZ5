@@ -19,6 +19,10 @@ function getAppConfig()
             'maxLoginLength' => 15,
             'minPasswordLength' => 5,
             'maxPasswordLength' => 20
+        ],
+        'captcha' => [
+            'siteKey' => '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+            'secretKey' => '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
         ]
     ];
 }

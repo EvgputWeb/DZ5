@@ -11,6 +11,8 @@ abstract class Config
     private static $cookieCryptPassword; // пароль для шифрования куки
     private static $cookieLiveTime;      // время жизни куки
     private static $photosFolder;        // папка для фоток пользователей
+    private static $captchaSiteKey;      // ключ капчи для клиентской части
+    private static $captchaSecretKey;    // ключ капчи для серверной части
 
     public static function loadConfig()
     {
@@ -22,6 +24,8 @@ abstract class Config
         self::$cookieCryptPassword = $cfg['cookieCryptPassword'];
         self::$cookieLiveTime = $cfg['cookieLiveTime'];
         self::$photosFolder = $cfg['photosFolder'];
+        self::$captchaSiteKey = $cfg['captcha']['siteKey'];
+        self::$captchaSecretKey = $cfg['captcha']['secretKey'];
     }
 
     public static function getMinLoginLength()
@@ -58,4 +62,15 @@ abstract class Config
     {
         return self::$photosFolder;
     }
+
+    public static function getCaptchaSiteKey()
+    {
+        return self::$captchaSiteKey;
+    }
+
+    public static function getCaptchaSecretKey()
+    {
+        return self::$captchaSecretKey;
+    }
+
 }

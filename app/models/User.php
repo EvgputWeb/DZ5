@@ -4,7 +4,7 @@ require_once 'BaseModel.php';
 
 class User extends BaseModel
 {
-    public static $userDataFields = ['name', 'age', 'description', 'login', 'password', 'password-again'];
+    public static $userDataFields = ['name', 'age', 'description', 'email', 'login', 'password', 'password-again'];
 
 
     public function Register($userData, &$userId)

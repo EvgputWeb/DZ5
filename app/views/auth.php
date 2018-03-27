@@ -66,6 +66,12 @@
             </div>
           </div>
           <div class="form-group">
+              <label class="col-sm-2 control-label">Проверка</label>
+              <div class="col-sm-10">
+                  <div class="g-recaptcha" data-sitekey="<?php echo $data[0]; ?>"></div>
+              </div>
+          </div>
+          <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
               <button type="submit" class="btn btn-default" name="submit">Войти</button>
               <br><br>
@@ -84,6 +90,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="../../js/main.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
   </body>
 </html>
