@@ -1,7 +1,5 @@
 <?php
 
-require_once(APP . '/config/config.php');
-
 abstract class Db
 {
     private static $dbh = null;  // коннект с базой
@@ -13,8 +11,8 @@ abstract class Db
 
     public static function setConnection()
     {
-        $params = getAppConfig();
-        $db = $params['db'];
+        $cfg = require(APP . '/config/config.php');
+        $db = $cfg['db'];
         try {
             // data source name
             $dsn = "mysql:host={$db['host']};dbname={$db['dbname']};charset={$db['charset']}";

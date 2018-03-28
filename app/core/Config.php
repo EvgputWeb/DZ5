@@ -1,76 +1,61 @@
 <?php
 
-require_once(APP . '/config/config.php');
-
 abstract class Config
 {
-    private static $minLoginLength;    // минимальное кол-во символов в логине
-    private static $maxLoginLength;    // максимальное кол-во символов в логине
-    private static $minPasswordLength; // минимальное кол-во символов в пароле
-    private static $maxPasswordLength; // максимальное кол-во символов в пароле
-    private static $cookieCryptPassword; // пароль для шифрования куки
-    private static $cookieLiveTime;      // время жизни куки
-    private static $photosFolder;        // папка для фоток пользователей
-    private static $captchaSiteKey;      // ключ капчи для клиентской части
-    private static $captchaSecretKey;    // ключ капчи для серверной части
+    private static $cfg;
 
     public static function loadConfig()
     {
-        $cfg = getAppConfig();
-        self::$minLoginLength = $cfg['user']['minLoginLength'];
-        self::$maxLoginLength = $cfg['user']['maxLoginLength'];
-        self::$minPasswordLength = $cfg['user']['minPasswordLength'];
-        self::$maxPasswordLength = $cfg['user']['maxPasswordLength'];
-        self::$cookieCryptPassword = $cfg['cookieCryptPassword'];
-        self::$cookieLiveTime = $cfg['cookieLiveTime'];
-        self::$photosFolder = $cfg['photosFolder'];
-        self::$captchaSiteKey = $cfg['captcha']['siteKey'];
-        self::$captchaSecretKey = $cfg['captcha']['secretKey'];
+        self::$cfg = require(APP . '/config/config.php');
     }
 
     public static function getMinLoginLength()
     {
-        return self::$minLoginLength;
+        return self::$cfg['user']['minLoginLength'];
     }
 
     public static function getMaxLoginLength()
     {
-        return self::$maxLoginLength;
+        return self::$cfg['user']['maxLoginLength'];
     }
 
     public static function getMinPasswordLength()
     {
-        return self::$minPasswordLength;
+        return self::$cfg['user']['minPasswordLength'];
     }
 
     public static function getMaxPasswordLength()
     {
-        return self::$maxPasswordLength;
+        return self::$cfg['user']['maxPasswordLength'];
     }
 
     public static function getCookieCryptPassword()
     {
-        return self::$cookieCryptPassword;
+        return self::$cfg['cookie']['cryptPassword'];
     }
 
     public static function getCookieLiveTime()
     {
-        return self::$cookieLiveTime;
+        return self::$cfg['cookie']['liveTime'];
     }
 
     public static function getPhotosFolder()
     {
-        return self::$photosFolder;
+        return self::$cfg['photosFolder'];
     }
 
     public static function getCaptchaSiteKey()
     {
-        return self::$captchaSiteKey;
+        return self::$cfg['captcha']['siteKey'];
     }
 
     public static function getCaptchaSecretKey()
     {
-        return self::$captchaSecretKey;
+        return self::$cfg['captcha']['secretKey'];
     }
 
+    public static function getSMTPSettings()
+    {
+        return self::$cfg['smtp'];
+    }
 }

@@ -12,12 +12,8 @@ class View
         $this->twig = new Twig_Environment($this->loader);
     }
 
-
     public function render($templateName, array $data)
     {
-        // require_once APP . '/views/' . $templateName . '.php';
-
-        echo $this->twig->render($templateName. '.twig', $data);
-
+        echo $this->twig->render($templateName . '.twig', $data);
     }
 }

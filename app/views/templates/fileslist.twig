@@ -1,0 +1,38 @@
+{% include('_header.twig') %}
+{% include('_nav.twig') %}
+
+    <div class="container">
+
+        <br>
+        <div class="alert alert-success" role="alert">
+            Вы авторизованы как&nbsp; <b>{{ name }}</b>&nbsp; (логин: <b>{{ login }}</b>)
+        </div>
+
+          <h2>Список файлов</h2>
+          <table class="table table-bordered">
+              <tr>
+                  <th>Название файла</th>
+                  <th>Фотография</th>
+                  <th>Действия</th>
+              </tr>
+
+              {% for id,filename in list %}
+                  <tr>
+                      <td>{{ filename }}</td>
+                      <td><img src="/user/photo/{{ id }}" alt=""></td>
+                      <td>
+                          <a href="/fileslist/deletephoto" id="deletephotolink_{{ id }}" data-id='{{ id }}'>
+                              Удалить аватарку пользователя
+                          </a>
+                      </td>
+                  </tr>
+              {% endfor %}
+
+          </table>
+
+      <?php endif ?>
+
+    </div><!-- /.container -->
+
+
+{% include('_footer.twig') %}

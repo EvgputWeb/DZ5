@@ -6,7 +6,6 @@ require_once APP . '/models/User.php';
 use ReCaptcha\ReCaptcha;
 use PHPMailer\PHPMailer\PHPMailer;
 
-
 class UserController extends Controller
 {
     public function __construct()
@@ -63,7 +62,7 @@ class UserController extends Controller
                     $viewData['successMessage'] = "Поздравляем! Регистрация прошла успешно!<br>Ваш логин: <b>{$userData['login']}</b>";
                     $this->view->render('success', $viewData);
                     // Регистрация прошла успешно - посылаем письмо
-                    $this->sendEmail($userData['email'],$userData['name']);
+                    $this->sendEmail($userData['email'], $userData['name']);
                 } else {
                     $viewData['errorMessage'] = $userRegisterResult;
                     $this->view->render('error', $viewData);
@@ -164,6 +163,7 @@ class UserController extends Controller
         return true;
     }
 
+
     private function testCaptcha($response)
     {
         $remoteIp = $_SERVER['REMOTE_ADDR'];
@@ -175,7 +175,8 @@ class UserController extends Controller
         return false;
     }
 
-    private function sendEmail($email,$userName)
+
+    private function sendEmail($email, $userName)
     {
         // Текст письма
         $mailText = "Здравствуйте, <b>$userName</b>!<br><br>\n\n";
@@ -184,17 +185,19 @@ class UserController extends Controller
         $mailText .= "С уважением,<br>\n";
         $mailText .= "Сайт<br>\n";
 
+        $smtp = Config::getSMTPSettings();
+
         $mail = new PHPMailer;
         $mail->IsSMTP();
         $mail->SMTPAuth = true;
-        $mail->Host = "smtp.mail.ru";
-        $mail->Username = 'evgputweb_loftschool@mail.ru';
-        $mail->Password = 'loftschool_evgputweb';
-        $mail->SMTPSecure = 'ssl';
-        $mail->Port = 465;
-        $mail->setFrom('evgputweb_loftschool@mail.ru', 'E-mail с сайта');
+        $mail->Host = $smtp['host'];
+        $mail->Username = $smtp['username'];
+        $mail->Password = $smtp['password'];
+        $mail->SMTPSecure = $smtp['secure'];
+        $mail->Port = $smtp['port'];
+        $mail->setFrom($smtp['mail_from'], 'E-mail с сайта');
         $mail->addAddress($email, 'Получатель');
-        $mail->addReplyTo('evgputweb_loftschool@mail.ru', 'Robot');
+        $mail->addReplyTo($smtp['mail_from'], 'Robot');
         $mail->CharSet = 'UTF-8';
         $mail->isHTML(true);
         $mail->Subject = 'Письмо с сайта';
@@ -205,5 +208,4 @@ class UserController extends Controller
         }
         return false;
     }
-
 }

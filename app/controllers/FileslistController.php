@@ -16,22 +16,28 @@ class FileslistController extends Controller
     {
         $userInfo = User::getUserInfoByCookie();
 
+        $viewData = [];
+        $viewData['curSection'] = 'fileslist';
+
         if ($userInfo['isLogined']) {
             // Это авторизованный пользователь
+            $viewData['login'] = $userInfo['login'];
+            $viewData['name'] = $userInfo['name'];
+
             // Берём у модели список файлов
             $filesList = $this->model->getFilesList();
 
             if (is_array($filesList)) {
-                $this->view->render('fileslist',
-                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'list' => $filesList]);
+                $viewData['list'] = $filesList;
+                $this->view->render('fileslist', $viewData);
             } else {
-                $errorMessage = (string)$filesList;
-                $this->view->render('fileslist',
-                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'errorMessage' => $errorMessage]);
+                $viewData['errorMessage'] = (string)$filesList;
+                $this->view->render('error', $viewData);
             }
         } else {
             // Пользователь не авторизован - доступ в раздел запрещён
-            $this->view->render('fileslist_denied', []);
+            $viewData['errorMessage'] = 'Отказано в доступе: необходимо авторизоваться';
+            $this->view->render('error', $viewData);
         }
     }
 
@@ -57,7 +63,4 @@ class FileslistController extends Controller
             echo json_encode(['result' => 'fail', 'errorMessage' => 'Вы не авторизованы. Нет прав на удаление'], JSON_UNESCAPED_UNICODE);
         }
     }
-
-
 }
-
