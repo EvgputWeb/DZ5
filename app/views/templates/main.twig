@@ -1,0 +1,16 @@
+{% include('_header.twig') %}
+{% include('_nav.twig') %}
+
+    <div class="container">
+
+        <h1>Это главная страница</h1>
+
+        {% if name is not empty %}
+          <p>Вы авторизованы как&nbsp;&nbsp;<b>{{ name }}</b>&nbsp;&nbsp;(логин: <b>{{ login }}</b></p>
+        {% endif %}
+
+        <p>Выберите действие в верхнем меню</p>
+
+    </div>
+
+{% include('_footer.twig') %}

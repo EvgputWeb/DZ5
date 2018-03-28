@@ -10,10 +10,14 @@ class MainController extends Controller
     {
         $userInfo = User::getUserInfoByCookie();
 
+        $viewData = ['curSection' => ''];
+
         if ($userInfo['isLogined']) {
-            $this->view->render('main', ['login' => $userInfo['login'], 'name' => $userInfo['name'] ]);
-        } else {
-            $this->view->render('main', []);
+            $viewData['login'] = $userInfo['login'];
+            $viewData['name'] = $userInfo['name'];
         }
+
+        $this->view->render('main', $viewData);
+
     }
 }

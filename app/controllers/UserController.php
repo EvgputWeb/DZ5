@@ -18,9 +18,13 @@ class UserController extends Controller
 
     public function actionRegister(array $params)
     {
+        $viewData = [];
+        $viewData['curSection'] = 'register';
+        $viewData['captchaSiteKey'] = Config::getCaptchaSiteKey();
+
         if (count($params) == 0) {
             // Нет параметров - показываем пустую форму регистрации
-            $this->view->render('register', [Config::getCaptchaSiteKey()]);
+            $this->view->render('register', $viewData);
         } else {
             // Есть данные пользователя, пришедшие из браузера (через POST)
             // Проверяем сначала прохождение капчи
@@ -29,7 +33,8 @@ class UserController extends Controller
                 $captchaPassed = $this->testCaptcha($params['g-recaptcha-response']);
             }
             if (!$captchaPassed) {
-                $this->view->render('register_error', ['Не пройдена анти-бот проверка']);
+                $viewData['errorMessage'] = 'Не пройдена анти-бот проверка';
+                $this->view->render('error', $viewData);
                 return;
             }
             // Капча пройдена - работаем дальше
@@ -55,14 +60,17 @@ class UserController extends Controller
 
                 if ($userRegisterResult === true) {
                     setcookie('user_id', User::encryptUserId($userId), time() + Config::getCookieLiveTime(), '/', $_SERVER['SERVER_NAME']);
-                    $this->view->render('register_success', ['login' => $userData['login']]);
+                    $viewData['successMessage'] = "Поздравляем! Регистрация прошла успешно!<br>Ваш логин: <b>{$userData['login']}</b>";
+                    $this->view->render('success', $viewData);
                     // Регистрация прошла успешно - посылаем письмо
                     $this->sendEmail($userData['email'],$userData['name']);
                 } else {
-                    $this->view->render('register_error', [$userRegisterResult]);
+                    $viewData['errorMessage'] = $userRegisterResult;
+                    $this->view->render('error', $viewData);
                 }
             } else {
-                $this->view->render('register_error', [$testParamsResult]);
+                $viewData['errorMessage'] = $testParamsResult;
+                $this->view->render('error', $viewData);
             }
         }
     }
@@ -70,9 +78,13 @@ class UserController extends Controller
 
     public function actionAuth(array $params)
     {
+        $viewData = [];
+        $viewData['curSection'] = 'auth';
+        $viewData['captchaSiteKey'] = Config::getCaptchaSiteKey();
+
         if (count($params) == 0) {
             // Нет параметров - показываем пустую форму авторизации
-            $this->view->render('auth', [Config::getCaptchaSiteKey()]);
+            $this->view->render('auth', $viewData);
         } else {
             // Есть данные пользователя, пришедшие из браузера (через POST)
             // Проверяем сначала прохождение капчи
@@ -81,7 +93,8 @@ class UserController extends Controller
                 $captchaPassed = $this->testCaptcha($params['g-recaptcha-response']);
             }
             if (!$captchaPassed) {
-                $this->view->render('auth_error', ['Не пройдена анти-бот проверка']);
+                $viewData['errorMessage'] = 'Не пройдена анти-бот проверка';
+                $this->view->render('error', $viewData);
                 return;
             }
             // Капча пройдена - работаем дальше
@@ -94,9 +107,11 @@ class UserController extends Controller
             if ($userAuthResult === true) {
                 setcookie('user_id', User::encryptUserId($userId), time() + Config::getCookieLiveTime(), '/', $_SERVER['SERVER_NAME']);
                 $userInfo = User::getUserInfoById($userId);
-                $this->view->render('auth_success', ['name' => $userInfo['name']]);
+                $viewData['successMessage'] = "Привет, <b>{$userInfo['name']}</b> !";
+                $this->view->render('success', $viewData);
             } else {
-                $this->view->render('auth_error', [$userAuthResult]);
+                $viewData['errorMessage'] = $userAuthResult;
+                $this->view->render('error', $viewData);
             }
         }
     }
@@ -172,15 +187,16 @@ class UserController extends Controller
         $mail = new PHPMailer;
         $mail->IsSMTP();
         $mail->SMTPAuth = true;
-        $mail->Host = "smtp.mailtrap.io";
-        $mail->Username = 'c25748876498c6';
-        $mail->Password = 'db1cb931cdfe56';
-        $mail->Port = 2525;
-        $mail->setFrom('from@mailtrap.com', 'E-mail с сайта');
-        $mail->addAddress($email, 'Получатель');     // Add a recipient
-        $mail->addReplyTo('from@mailtrap.com', 'Robot');
+        $mail->Host = "smtp.mail.ru";
+        $mail->Username = 'evgputweb_loftschool@mail.ru';
+        $mail->Password = 'loftschool_evgputweb';
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
+        $mail->setFrom('evgputweb_loftschool@mail.ru', 'E-mail с сайта');
+        $mail->addAddress($email, 'Получатель');
+        $mail->addReplyTo('evgputweb_loftschool@mail.ru', 'Robot');
         $mail->CharSet = 'UTF-8';
-        $mail->isHTML(true);                                  // Set email format to HTML
+        $mail->isHTML(true);
         $mail->Subject = 'Письмо с сайта';
         $mail->Body = $mailText;
         $mail->AltBody = strip_tags($mailText);

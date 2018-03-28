@@ -18,26 +18,28 @@ class UserslistController extends Controller
     {
         $userInfo = User::getUserInfoByCookie();
 
+        $viewData = [];
+        $viewData['curSection'] = 'userslist';
+
         if ($userInfo['isLogined']) {
             // Это авторизованный пользователь
+            $viewData['login'] = $userInfo['login'];
+            $viewData['name'] = $userInfo['name'];
+
             // Берём у модели список пользователей
             $usersList = $this->model->getUsersList();
 
             if (is_array($usersList)) {
-                $this->view->render(
-                    'userslist',
-                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'list' => $usersList]
-                );
+                $viewData['list'] = $usersList;
+                $this->view->render('userslist', $viewData);
             } else {
-                $errorMessage = (string)$usersList;
-                $this->view->render(
-                    'userslist',
-                    ['login' => $userInfo['login'], 'name' => $userInfo['name'], 'errorMessage' => $errorMessage]
-                );
+                $viewData['errorMessage'] = (string)$usersList;
+                $this->view->render('error', $viewData);
             }
         } else {
             // Пользователь не авторизован - доступ в раздел запрещён
-            $this->view->render('userslist_denied', []);
+            $viewData['errorMessage'] = 'Отказано в доступе: необходимо авторизоваться';
+            $this->view->render('error', $viewData);
         }
     }
 

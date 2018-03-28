@@ -1,0 +1,15 @@
+{% include('_header.twig') %}
+{% include('_nav.twig') %}
+
+    <div class="container">
+
+        <br>
+        <br>
+        <div class="alert alert-danger" role="alert">
+            Ошибка:<br>
+            <b>{{ errorMessage | raw }}</b>
+        </div>
+
+    </div>
+
+{% include('_footer.twig') %}
