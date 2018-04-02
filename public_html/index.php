@@ -21,12 +21,8 @@ require_once ROOT . '/vendor/autoload.php';
 // Загружаем конфигурацию
 Config::loadConfig();
 
-
 // Установка соединения с БД
-if (Db::setConnection() == false) {
-    echo 'Ошибка соединения с БД';
-    die;
-}
+Db::setConnection();
 
 // Запускаем Router
 Router::run();

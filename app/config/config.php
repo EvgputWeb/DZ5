@@ -4,9 +4,10 @@ return [
     'db' => [
         'host' => 'localhost',
         'dbname' => 'mvc',
-        'user' => 'root',
+        'username' => 'root',
         'password' => '',
-        'charset' => 'utf8'
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci'
     ],
     'cookie' => [
         'cryptPassword' => 'IuJkLr34Dfb0196',

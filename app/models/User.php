@@ -1,9 +1,12 @@
 <?php
 
-require_once 'BaseModel.php';
+use Illuminate\Database\Eloquent\Model;
 
-class User extends BaseModel
-{
+
+class User extends Model {
+
+    public $timestamps = false;
+
     public static $userDataFields = ['name', 'age', 'description', 'email', 'login', 'password', 'password-again'];
 
 
@@ -48,7 +51,28 @@ class User extends BaseModel
 
     public function Auth($userData, &$userId)
     {
-        try {
+        $user = $this->whereRaw('lcase(login) = ?', strtolower($userData['login']))->get(['id','password_hash'])->toArray();
+        if (empty($user)) {
+            return 'Пользователь с таким логином не найден';
+        }
+        // Есть пользователь с таким логином
+        // Проверяем пароль
+        if (password_verify($userData['password'], $user[0]['password_hash'])) {
+            // Успешная авторизация.
+            // Возвращаем true и отдаём userId (чтобы установить куку)
+            $userId = $user[0]['id'];
+
+            echo 'USER ID = '.$userId;
+            die;
+
+            return true;
+        } else {
+            return 'Неверный пароль';
+        }
+
+
+
+        /*try {
             $sql = 'SELECT users.id,users.password_hash FROM users WHERE (lcase(login) = lcase(:flogin))';
             $sth = Db::getConnection()->prepare($sql);
             $sth->execute(['flogin' => $userData['login']]);
@@ -69,7 +93,7 @@ class User extends BaseModel
             }
         } catch (PDOException $e) {
             return 'Ошибка при запросе к БД';
-        }
+        }*/
     }
 
 
