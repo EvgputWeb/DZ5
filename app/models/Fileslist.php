@@ -1,31 +1,29 @@
 <?php
 
-require_once 'BaseModel.php';
+use Illuminate\Database\Eloquent\Model;
+
 require_once 'User.php';
 
 
-class Fileslist extends BaseModel
+class Fileslist extends Model
 {
+    protected $table = 'users';
+
+
     public function getFilesList()
     {
-        try {
-            $sth = Db::getConnection()->query('SELECT users.id FROM users ORDER BY id');
-            $idsList = $sth->fetchAll(PDO::FETCH_COLUMN);
-            if ($idsList === false) {
-                return 'Ошибка при выполнении запроса к БД';
-            } else {
-                $filesList = [];
-                for ($i = 0; $i < count($idsList); $i++) {
-                    $photoFilename = Config::getPhotosFolder() . '/photo_' . intval($idsList[$i]) . '.jpg';
-                    if (file_exists($photoFilename)) {
-                        $filesList[$idsList[$i]] = 'photo_' . intval($idsList[$i]) . '.jpg';
-                    }
+        $filesList = [];
+        $idsList = User::all(['id'])->sortByDesc('id')->toArray();
+
+        if (!empty($idsList)) {
+            foreach ($idsList as $item) {
+                $photoFilename = Config::getPhotosFolder() . '/photo_' . intval($item['id']) . '.jpg';
+                if (file_exists($photoFilename)) {
+                    $filesList[$item['id']] = 'photo_' . intval($item['id']) . '.jpg';
                 }
-                return $filesList;
             }
-        } catch (PDOException $e) {
-            return 'Ошибка при запросе к БД';
         }
+        return $filesList;
     }
 
 

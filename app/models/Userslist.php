@@ -1,43 +1,31 @@
 <?php
 
-require_once 'BaseModel.php';
+use Illuminate\Database\Eloquent\Model;
+
 require_once 'User.php';
 
 
-class Userslist extends BaseModel
+class Userslist extends Model
 {
+    protected $table = 'users';
+
+
     public function getUsersList()
     {
-        try {
-            $sth = Db::getConnection()->query('SELECT * FROM users ORDER BY id');
-            $usersList = $sth->fetchAll(PDO::FETCH_ASSOC);
-            if ($usersList === false) {
-                return 'Ошибка при выполнении запроса к БД';
-            } else {
-                return $usersList;
-            }
-        } catch (PDOException $e) {
-            return 'Ошибка при запросе к БД';
-        }
+        $users = User::all()->sortByDesc('id')->toArray();
+        return $users;
     }
 
 
     public function deleteUser($userId)
     {
-        try {
-            $res = Db::getConnection()->exec('DELETE FROM users WHERE id = '. intval($userId));
-            if ($res === false) {
-                return 'Ошибка при удалении';
-            } else {
-                // Удаляем фотку, если она есть
-                $photoFilename = Config::getphotosFolder() . '/photo_'. intval($userId) . '.jpg';
-                if (file_exists($photoFilename)) {
-                    unlink($photoFilename);
-                }
-                return true;
-            }
-        } catch (PDOException $e) {
-            return 'Ошибка при запросе к БД';
+        User::destroy($userId);
+
+        // Удаляем фотку, если она есть
+        $photoFilename = Config::getPhotosFolder() . '/photo_' . intval($userId) . '.jpg';
+        if (file_exists($photoFilename)) {
+            unlink($photoFilename);
         }
+        return true;
     }
 }
