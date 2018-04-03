@@ -33,6 +33,9 @@ class Fileslist extends Model
         $photoFilename = Config::getPhotosFolder() . '/photo_' . intval($userId) . '.jpg';
         if (file_exists($photoFilename)) {
             if (unlink($photoFilename)) {
+                User::query()->find($userId)->update([
+                    'photo_link' => null
+                ]);
                 return true;
             } else {
                 return 'Ошибка при удалении файла';

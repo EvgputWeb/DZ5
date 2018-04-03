@@ -88,11 +88,21 @@ class UserslistController extends Controller
         $viewData['curSection'] = 'userslist';
 
         if (isset($params['submit'])) {
-            // Нажали "Сохранить" в форме редактирования пользователя
+            // Была нажата кнопка "Сохранить" в форме редактирования пользователя
             // Сохраняем данные и делаем редирект на список пользователей
             $userId = $params['request_from_url'];
-            $this->model->updateUserData($userId, $params);
-            header('Location: /userslist');
+            // Если есть фотка, то добавляем в данные пользователя имя загруженного файла
+            if ((isset($_FILES)) && (isset($_FILES['photo']))) {
+                $params['photo_filename'] = $_FILES['photo']['tmp_name'];
+            }
+            // Обращаемся к модели для обновления данных пользователя
+            $res = $this->model->updateUserData($userId, $params);
+            if ($res === true) {
+                header('Location: /userslist');
+            } else {
+                $viewData['errorMessage'] = (string)$res;
+                $this->view->render('error', $viewData);
+            }
         } else {
             // Просто отображаем форму редактирования
             $userInfo = User::getUserInfoByCookie();
@@ -106,6 +116,47 @@ class UserslistController extends Controller
                 $viewData['user'] = $this->model->getUserData($userId);
                 // Отображаем их в форме редактирования
                 $this->view->render('edituser', $viewData);
+            } else {
+                // Пользователь не авторизован - доступ в раздел запрещён
+                $viewData['errorMessage'] = 'Отказано в доступе: необходимо авторизоваться';
+                $this->view->render('error', $viewData);
+            }
+        }
+    }
+
+
+    public function actionNewUser(array $params)
+    {
+        $viewData = [];
+        $viewData['curSection'] = 'userslist';
+
+        if (isset($params['submit'])) {
+            // Была нажата кнопка "Сохранить" в форме создания пользователя
+            // Сохраняем данные и делаем редирект на список пользователей
+
+            // Если есть фотка, то добавляем в данные пользователя имя загруженного файла
+            if ((isset($_FILES)) && (isset($_FILES['photo']))) {
+                $params['photo_filename'] = $_FILES['photo']['tmp_name'];
+            }
+
+            // Обращаемся к модели для создания нового пользователя
+            $res = $this->model->createNewUser($params);
+            if ($res === true) {
+                header('Location: /userslist');
+            } else {
+                $viewData['errorMessage'] = (string)$res;
+                $this->view->render('error', $viewData);
+            }
+        } else {
+            // Просто отображаем форму создания пользователя
+            $userInfo = User::getUserInfoByCookie();
+            if ($userInfo['isLogined']) {
+                // Это авторизованный пользователь
+                $viewData['login'] = $userInfo['login'];
+                $viewData['name'] = $userInfo['name'];
+
+                // Отображаем форму создания нового пользователя
+                $this->view->render('newuser', $viewData);
             } else {
                 // Пользователь не авторизован - доступ в раздел запрещён
                 $viewData['errorMessage'] = 'Отказано в доступе: необходимо авторизоваться';

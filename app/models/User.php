@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class User extends Model
 {
     public $timestamps = false;
@@ -13,11 +12,17 @@ class User extends Model
 
     public function Register($userData, &$userId)
     {
-        // Проверка: вдруг такой пользователь уже есть
+        // Проверка 1: логин должен быть уникальным
         $login = strtolower($userData['login']);
         $user = $this->query()->whereRaw('lcase(login) = ?', $login)->get(['id'])->toArray();
         if (!empty($user)) {
             return 'Пользователь с таким логином уже есть';
+        }
+        // Проверка 2: e-mail должен быть уникальным
+        $email = strtolower($userData['email']);
+        $user = $this->query()->whereRaw('lcase(email) = ?', $email)->get(['id'])->toArray();
+        if (!empty($user)) {
+            return 'Пользователь с таким e-mail уже есть';
         }
         // Нет такого пользователя. Создаём.
         $user = $this->query()->create([
@@ -32,7 +37,11 @@ class User extends Model
         $userId = $user->id;
         // Если есть фотка, то помещаем её в папку для фоток с именем "photo_".$userId."jpg"
         if (isset($userData['photo_filename'])) {
-            $this->saveUserPhoto($userId, $userData['photo_filename']);
+            if (self::saveUserPhoto($userId, $userData['photo_filename'])) {
+                $this->query()->find($userId)->update([
+                    'photo_link' => "photo_$userId.jpg"
+                ]);
+            }
         }
         return true;
     }
@@ -105,21 +114,20 @@ class User extends Model
             $userInfo['isLogined'] = false;
             return $userInfo;
         }
-
         return array_merge($userInfo, $usrInf);
     }
 
 
-    private function saveUserPhoto($userId, $tmpFilename)
+    public static function saveUserPhoto($userId, $tmpFilename)
     {
         if (empty($tmpFilename)) {
-            return;
+            return false;
         }
         $imgTypes = [IMAGETYPE_JPEG, IMAGETYPE_PNG];
         $imgType = exif_imagetype($tmpFilename);
         if (!in_array($imgType, $imgTypes)) {
             // недопустимый тип файла
-            return;
+            return false;
         }
         switch ($imgType) {
             case IMAGETYPE_JPEG:
@@ -130,21 +138,21 @@ class User extends Model
                 break;
         }
         if ($img === false) {
-            return;
+            return false;
         }
         // обрезаем картинку - делаем квадрат
         $size = min(imagesx($img), imagesy($img));
         $img2 = imagecrop($img, ['x' => 0, 'y' => 0, 'width' => $size, 'height' => $size]);
         if ($img2 === false) {
             imagedestroy($img);
-            return;
+            return false;
         }
         imagedestroy($img);
         // масштабируем до размера 100x100
         $imageScaled = imagescale($img2, 100);
         if ($imageScaled === false) {
             imagedestroy($img2);
-            return;
+            return false;
         }
 
         // Сохраняем в папку с фотками пользователей
@@ -154,5 +162,7 @@ class User extends Model
 
         // Удаляем временный файл
         unlink($tmpFilename);
+
+        return true;
     }
 }

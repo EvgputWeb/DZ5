@@ -8,7 +8,7 @@
           Вы авторизованы как&nbsp; <b>{{ name }}</b>&nbsp; (логин: <b>{{ login }}</b>)
       </div>
 
-      <h2>Редактирование информации о пользователе</h2>
+      <h2>Создание нового пользователя</h2>
 
       <div class="form-container">
 
@@ -17,21 +17,21 @@
             <div class="form-group">
                 <label for="inputName" class="col-sm-2 control-label">Имя</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputName" placeholder="Имя" name="name" value="{{ user.name }}">
+                    <input type="text" class="form-control" id="inputName" placeholder="Имя" name="name">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputAge" class="col-sm-2 control-label">Возраст</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputAge" placeholder="Возраст" name="age" value="{{ user.age }}">
+                    <input type="text" class="form-control" id="inputAge" placeholder="Возраст" name="age">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputDescription" class="col-sm-2 control-label">Описание</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" id="inputDescription" rows="3" name="description">{{ user.description }}</textarea>
+                    <textarea class="form-control" id="inputDescription" rows="3" name="description"></textarea>
                 </div>
             </div>
 
@@ -46,16 +46,38 @@
             <div class="form-group">
                 <label for="inputEmail" class="col-sm-2 control-label"><nobr>E-mail</nobr></label>
                 <div class="col-sm-10">
-                  <input type="email" class="form-control" id="inputEmail3" placeholder="E-mail" name="email" value="{{ user.email }}" required>
+                  <input type="email" class="form-control" id="inputEmail3" placeholder="E-mail" name="email" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Логин</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="inputEmail3" placeholder="Логин" name="login" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" id="inputPassword3" placeholder="Пароль" name="password">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword4" class="col-sm-2 control-label">Пароль (Повтор)</label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" id="inputPassword4" placeholder="Пароль" name="password-again">
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-success" name="submit">Сохранить</button>
-                  <a class="btn btn-default" href="/userslist">Отмена</a>
+                    <button type="submit" class="btn btn-success" name="submit">Сохранить</button>
+                    <a class="btn btn-default" href="/userslist">Отмена</a>
                 </div>
             </div>
+
 
         </form>
 

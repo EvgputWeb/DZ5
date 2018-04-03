@@ -8,7 +8,12 @@
               Вы авторизованы как&nbsp; <b>{{ name }}</b>&nbsp; (логин: <b>{{ login }}</b>)
           </div>
 
-          <h2>Список пользователей</h2>
+          <h2 style="position: relative;">Список пользователей
+              <a href="/userslist/newuser/" class="btn btn-success" style="position: absolute; right: 0;">
+                  Создать нового пользователя
+              </a>
+          </h2>
+
           <table class="table table-bordered">
               <tr>
                   <th>Логин</th>
