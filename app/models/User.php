@@ -25,6 +25,7 @@ class User extends Model
             'age' => intval($userData['age']),
             'description' => $userData['description'],
             'login' => $userData['login'],
+            'email' => $userData['email'],
             'password_hash' => password_hash($userData['password'], PASSWORD_BCRYPT)
         ]);
         // Возвращаем true и отдаём userId (чтобы установить куку)

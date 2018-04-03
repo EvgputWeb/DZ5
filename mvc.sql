@@ -13,20 +13,25 @@
 
 
 -- Дамп структуры базы данных mvc
+DROP DATABASE IF EXISTS `mvc`;
 CREATE DATABASE IF NOT EXISTS `mvc` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `mvc`;
 
 -- Дамп структуры для таблица mvc.users
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `login` varchar(50) DEFAULT NULL,
+  `login` varchar(50) NOT NULL,
   `password_hash` varchar(255) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `age` smallint(6) unsigned DEFAULT NULL,
   `description` varchar(700) DEFAULT NULL,
+  `email` varchar(70) NOT NULL,
+  `photo_link` varchar(70) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `login` (`login`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- Экспортируемые данные не выделены.
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

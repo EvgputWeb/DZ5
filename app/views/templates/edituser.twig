@@ -1,0 +1,66 @@
+{% include('_header.twig') %}
+{% include('_nav.twig') %}
+
+    <div class="container">
+
+      <br>
+      <div class="alert alert-success" role="alert">
+          Вы авторизованы как&nbsp; <b>{{ name }}</b>&nbsp; (логин: <b>{{ login }}</b>)
+      </div>
+
+      <h2>Редактирование информации о пользователе</h2>
+
+      <div class="form-container">
+
+        <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">Имя</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputName" placeholder="Имя" name="name" value="{{ user.name }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputAge" class="col-sm-2 control-label">Возраст</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputAge" placeholder="Возраст" name="age" value="{{ user.age }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputDescription" class="col-sm-2 control-label">О&nbsp;себе</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" id="inputDescription" rows="3" name="description">{{ user.description }}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <!-- <input type="hidden" name="MAX_FILE_SIZE" value="1048576" /> -->
+                <label for="inputPhoto" class="col-sm-2 control-label">Фото</label>
+                <div class="col-sm-10">
+                    <input type="file" class="form-control" id="inputPhoto" name="photo" accept="image/*">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail" class="col-sm-2 control-label"><nobr>E-mail</nobr></label>
+                <div class="col-sm-10">
+                  <input type="email" class="form-control" id="inputEmail3" placeholder="E-mail" name="email" value="{{ user.email }}" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success" name="submit">Сохранить</button>
+                  <a class="btn btn-default" href="/userslist">Отмена</a>
+                </div>
+            </div>
+
+        </form>
+
+      </div>
+
+    </div><!-- /.container -->
+
+{% include('_footer.twig') %}

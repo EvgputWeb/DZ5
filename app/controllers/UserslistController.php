@@ -43,7 +43,7 @@ class UserslistController extends Controller
         }
     }
 
-    
+
     public function actionDeleteUser(array $params)
     {
         if (!isset($params['id'])) {
@@ -71,13 +71,46 @@ class UserslistController extends Controller
             $deleteUserResult = $this->model->deleteUser($params['id']);
 
             if ($deleteUserResult === true) {
-                echo json_encode(['result' => 'success', 'name' => $info['name'], 'login' => $info['login'] ], JSON_UNESCAPED_UNICODE);
+                echo json_encode(['result' => 'success', 'name' => $info['name'], 'login' => $info['login']], JSON_UNESCAPED_UNICODE);
             } else {
                 echo json_encode(['result' => 'fail', 'errorMessage' => $deleteUserResult], JSON_UNESCAPED_UNICODE);
             }
         } else {
             // Пользователь не авторизован - он не имеет прав
             echo json_encode(['result' => 'fail', 'errorMessage' => 'Вы не авторизованы. Нет прав на удаление'], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+
+    public function actionEditUser(array $params)
+    {
+        $viewData = [];
+        $viewData['curSection'] = 'userslist';
+
+        if (isset($params['submit'])) {
+            // Нажали "Сохранить" в форме редактирования пользователя
+            // Сохраняем данные и делаем редирект на список пользователей
+            $userId = $params['request_from_url'];
+            $this->model->updateUserData($userId, $params);
+            header('Location: /userslist');
+        } else {
+            // Просто отображаем форму редактирования
+            $userInfo = User::getUserInfoByCookie();
+            if ($userInfo['isLogined']) {
+                // Это авторизованный пользователь
+                $viewData['login'] = $userInfo['login'];
+                $viewData['name'] = $userInfo['name'];
+
+                $userId = $params['request_from_url'];
+                // Берём у модели данные пользователя
+                $viewData['user'] = $this->model->getUserData($userId);
+                // Отображаем их в форме редактирования
+                $this->view->render('edituser', $viewData);
+            } else {
+                // Пользователь не авторизован - доступ в раздел запрещён
+                $viewData['errorMessage'] = 'Отказано в доступе: необходимо авторизоваться';
+                $this->view->render('error', $viewData);
+            }
         }
     }
 }

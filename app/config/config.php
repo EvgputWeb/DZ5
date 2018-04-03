@@ -11,7 +11,7 @@ return [
     ],
     'cookie' => [
         'cryptPassword' => 'IuJkLr34Dfb0196',
-        'liveTime' => 120
+        'liveTime' => 480
     ],
     'photosFolder' => APP . '/_photos_',
     'user' => [

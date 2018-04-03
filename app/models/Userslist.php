@@ -28,4 +28,22 @@ class Userslist extends Model
         }
         return true;
     }
+
+
+    public function getUserData($userId)
+    {
+        return User::query()->find($userId)->toArray();
+    }
+
+
+    public function updateUserData($userId, $newData)
+    {
+        User::query()->find($userId)->update([
+            'name' => $newData['name'],
+            'age' => $newData['age'],
+            'description' => $newData['description'],
+            'email' => $newData['email']
+        ]);
+    }
+
 }
